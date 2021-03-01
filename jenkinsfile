@@ -1,28 +1,32 @@
 pipeline {
 	Agent any
-  environment{
-    PATH= /opt/apache-maven-3.6.3/bin:$PATH
-  }
+  	environment{
+    		PATH= /opt/apache-maven-3.6.3/bin:$PATH
+  	}
 	stages{
 		stage("git"){
-      steps{
-			  git credentialsId: 'git_credentials', url: ''
-        }
+      			steps{
+				echo("Cloning Git hub jenkins file")
+				git credentialsId: 'git_credentials', url: 'https://github.com/squad12-devops/case-study/blob/main/jenkinsfile'
+        		}
 		}
 		stage("Static Code Analysis"){
-      steps{
-			  sh "mvn validate"
-        }
+      			steps{
+				echo("validating project")
+				sh "mvn validate"
+        		}
 		}
-    stage("Compile"){
-      steps{
-			  sh "mvn compile"
-        }
+    		stage("Compile"){
+      			steps{
+				echo("compiling project")
+				sh "mvn compile"
+        		}
 		}
-    stage("Build"){
-      steps{
-			  sh "mvn package"
-        }
+    		stage("Build"){
+      			steps{
+				echo("build package")
+				sh "mvn package"
+        		}
 		}
 	}
 
