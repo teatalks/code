@@ -7,7 +7,7 @@ pipeline {
 		stage("git"){
       			steps{
 				echo("Cloning Git hub jenkins file")
-				git credentialsId: 'Github', url: 'https://github.com/squad12-devops/case-study/blob/main/jenkinsfile'
+				git credentialsId: 'Github', url: 'https://github.com/squad12-devops/DevOps-Demo-WebApp.git'
         		}
 		}
 		stage("Static Code Analysis"){
