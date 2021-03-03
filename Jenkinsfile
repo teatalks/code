@@ -32,6 +32,7 @@ pipeline {
     stage('Last Step') {
       steps {
         echo 'Test step slack'
+        slackSend channel: '#squad12', message: 'Build successful'
       }
     }
 
