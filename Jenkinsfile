@@ -35,7 +35,7 @@ pipeline {
         slackSend channel: '#squad12', message: 'Build successful'
         rtUpload (
               serverId: 'devopspuni',
-              specPath: '**/*.war',
+              specPath: '/var/jenkins_home/workspace/TestJenkinsPipeline11/target/AVNCommunication-1.0.war',
     
               buildName: 'holyFrog',
               buildNumber: '42'
