@@ -33,6 +33,13 @@ pipeline {
       steps {
         echo 'Test step slack'
         slackSend channel: '#squad12', message: 'Build successful'
+        rtUpload (
+              serverId: 'devopspuni',
+              specPath: '**/*.war',
+    
+              buildName: 'holyFrog',
+              buildNumber: '42'
+          )
       }
     }
 
