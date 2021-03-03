@@ -28,6 +28,12 @@ pipeline {
 				sh "mvn package"
         		}
 		}
+		stage("Last Step"){
+      			steps{
+				echo("Test step")
+				
+        		}
+		}
 	}
 
 }
