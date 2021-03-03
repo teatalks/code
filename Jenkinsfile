@@ -30,7 +30,7 @@ pipeline {
 		}
 		stage("Last Step"){
       			steps{
-				echo("Test step")
+				echo("Test step slack")
 				
         		}
 		}
