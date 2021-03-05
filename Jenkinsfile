@@ -14,6 +14,21 @@ pipeline {
         sh 'mvn validate'
       }
     }
+    stage('Sonarqube Analysis') {
+           steps{
+               withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
+                 sh "${tool("sonarqube")}/bin/sonar-scanner \
+                -Dsonar.projectKey=. \
+                -Dsonar.sources=. \
+                -Dsonar.tests=. \
+                -Dsonar.inclusions=**/test/java/servlet/createpage_junit.java \
+                -Dsonar.test.exclusions=**/test/java/servlet/createpage_junit.java \
+                -Dsonar.login=admin \
+                -Dsonar.password=sonar "
+                 sh 'mvn validate -f pom.xml'
+                }
+           }
+       }
 
     stage('Compile') {
       steps {
