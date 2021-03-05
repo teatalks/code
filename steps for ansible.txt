@@ -1,4 +1,5 @@
 Create Controller VM
+Create a role having access to EC2 services and attach it with the VM
 connect controller
 install ansible
 intall boto sudo apt-get install -y python-boto
@@ -7,6 +8,9 @@ save yml:
 ---
 - name: ec2 launcher
   hosts: localhost
+  connection: local
+  become: False
+  remote_user: root
   tasks:
   - name: launch ec2       
     ec2:
@@ -14,11 +18,47 @@ save yml:
       instance_type: t2.micro
       image: ami-013f17f36f8b1fefb
       wait: yes
-      group: launch-wizard-9
+      group: launch-wizard-10
       count: 1
-      vpc_subnet_id: subnet-4f7b9010
+      vpc_subnet_id: subnet-0c209e41
       assign_public_ip: yes
       region: us-east-1
+    register: ec2
+
+  - name: Add new instance to host group
+    add_host:
+      hostname: "{{ item.public_ip }}"
+      groupname: ec2hosts
+    loop: "{{ ec2.instances }}"
+  - name: fetch all public ssh keys
+    shell: cat ~/.ssh/id_rsa.pub
+    register: ssh_keys
+    tags:
+      - ssh
+
+  - name: check keys
+    debug: msg="{{ ssh_keys.stdout }}"
+    tags:
+      - ssh
+  - name: deploy keys on all servers
+    authorized_key: user=root key="{{ item[0] }}"
+    delegate_to: "{{ item[1] }}"
+    with_nested:
+      - "{{ ssh_keys.stdout }}"
+      - "{{groups['ec2hosts']}}"
+    tags:
+      - ssh
+
+  - name: Wait for SSH to come up
+    delegate_to: "{{ item.public_dns_name }}"
+    wait_for_connection:
+      delay: 120
+      timeout: 320
+    loop: "{{ ec2.instances }}"  
+- hosts: ec2hosts
+  become: yes
+  remote_user: root
+  tasks:
   - name: Update and upgrade apt packages
     apt:
      upgrade: yes
