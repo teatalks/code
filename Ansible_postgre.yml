@@ -1,0 +1,62 @@
+--- 
+- 
+  become: true
+  hosts: localhost
+  tasks: 
+    - 
+      apt: 
+        cache_valid_time: 86400
+        update_cache: true
+        upgrade: true
+      name: "ensure apt cache is up to date"
+    - 
+      apt: 
+        name: libpq-dev
+        state: present
+      name: "ensure packages are installed"
+    - 
+      file: 
+        mode: 511
+        path: /postgres/data
+        state: directory
+      name: "Create Folder1"
+    - 
+      file: 
+        mode: 511
+        path: /home/postgres/scripts
+        state: directory
+      name: "Create folder2"
+    - 
+      apt: 
+        name: postgresql
+        state: present
+      name: "install PostgreSQL"
+    - 
+      apt: 
+        name: postgresql-contrib
+        state: present
+      name: "install postgresql-contrib"
+    - 
+      name: "Prepare update"
+      shell: "sed -i 's+localhost+*+gI' /etc/postgresql/10/main/postgresql.conf"
+    - 
+      name: "Prepare update"
+      shell: "sed -i 's+#listen_addresses+listen_addresses+gI' /etc/postgresql/10/main/postgresql.conf"
+    - 
+      pause: seconds=5
+    - 
+      get_url: "url=https://raw.githubusercontent.com/devopsbc01/Scripts/master/initial-table.sql dest=/home/postgres/scripts"
+      name: "download table script"
+    - 
+      name: "run script"
+      shell: "sudo -u postgres psql -f  /home/postgres/scripts/initial-table.sql"
+    - 
+      name: "restarting db"
+      shell: "sudo /etc/init.d/postgresql restart"
+  vars: 
+    dfolder: /postgres/data
+    logfile: psqlinstall-log
+    rfolder: /postgres
+    scripts: /home/$USER/scripts
+    sqlscript: $scripts/initial-table.sql
+    sysuser: postgres
