@@ -7,13 +7,6 @@ pipeline {
         git(credentialsId: 'Github', url: 'https://github.com/squad12-devops/DevOps-Demo-WebApp.git')
       }
     }
-
-    stage('Static Code Analysis') {
-      steps {
-        echo 'validating project'
-        sh 'mvn validate'
-      }
-    }
     stage('Sonarqube Analysis') {
            steps{
                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
