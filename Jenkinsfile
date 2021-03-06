@@ -7,7 +7,7 @@ pipeline {
         git(credentialsId: 'Github', url: 'https://github.com/squad12-devops/DevOps-Demo-WebApp.git')
       }
     }
-    stage('Sonarqube Analysis') {
+    stage(' Static Code Analysis - SonarQube') {
            steps{
                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
                  sh "${tool("sonarqube")}/bin/sonar-scanner \
