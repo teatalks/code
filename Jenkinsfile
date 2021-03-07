@@ -33,12 +33,10 @@ pipeline {
     stage('Deploy to QA') {
            steps {
                sh 'mvn package -f pom.xml' 
-               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://54.144.155.185:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://18.221.226.107:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
+               echo 'Notification send - Deploy to QA'
+               slackSend channel: '#squad12', message: ' Deploy to QA successful'
              }
-            steps {
-                echo 'Notification send - Deploy to QA'
-                slackSend channel: '#squad12', message: ' Deploy to QA successful'
-            }  
     }
     
     stage('Store the Artifacts in JFrog') {
@@ -77,11 +75,18 @@ pipeline {
            steps {
                sh 'mvn package -f pom.xml' 
                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://54.173.168.94:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
+               echo 'Notification send - Deploy to PROD'
+               slackSend channel: '#squad12', message: ' Deploy to PROD successful'
              }
-            steps {
-                echo 'Notification send - Deploy to PROD'
-                slackSend channel: '#squad12', message: ' Deploy to PROD successful'
-            } 
+    }
+    
+    stage('Perform Sanity test in PROD') {
+        steps{
+            sh 'mvn test -f Acceptancetest/pom.xml'
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
+            echo 'Notification send - Sanity test in PROD completed'
+            slackSend channel: '#squad12', message: ' Sanity test in PROD completed successfully'
+	   }
     }
     
   }
