@@ -21,7 +21,7 @@ pipeline {
                  sh 'mvn validate -f pom.xml'
                 }
            }
-       }
+    }
 
     stage('Compile') {
       steps {
@@ -36,7 +36,14 @@ pipeline {
                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://100.25.194.166:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to QA'
                slackSend channel: '#squad12', message: ' Deploy to QA successful'
-             }
+               
+           }
+           
+            post {
+                    always {
+                         jiraSendBuildInfo site: '12squaddevops.atlassian.net',  branch: 'master'
+                    }
+            }
     }
     
     stage('Store the Artifacts in JFrog') {
