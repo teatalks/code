@@ -11,7 +11,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 sudo apt -y update
 apt-cache policy docker-ce
-sudo apt-get -y install docker-ce --ignore-hold
+sudo apt -y install docker-ce
 sudo systemctl status docker
 
 #cocker ps permissions to ubuntu 
