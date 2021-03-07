@@ -89,3 +89,16 @@ sleep 5
 echo "Restarting postgres DB"
 sudo /etc/init.d/postgresql restart
 echo "Squad12 : Infrastructure is ready to deploy Mars Communication"
+
+
+# Metricbeat Installation and Setup
+
+sudo apt-get -y update
+sudo apt-get -y install default-jre
+sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+sudo echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt-get -y update && sudo -y apt-get install metricbeat
+sudo service metricbeat start
+sudo metricbeat modules enable elasticsearch
+sudo metricbeat setup --dashboards
+sudo systemctl restart metricbeat
