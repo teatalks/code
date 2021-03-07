@@ -3,6 +3,9 @@ sudo apt -y update
 sudo apt-add repository ppa:ansible/ansible
 sudo apt-get -y install ansible
 ansible --version
+ssh-keygen -t rsa -N '' -f /tmp/ssh_sq12 -q
+ansible -m ping localhost
+cat ~/.ssh/id_rsa.pub
 
 # Docker installation and setup
 sudo apt-get -y update
@@ -19,4 +22,3 @@ docker ps
 
 #Ansible environment setup
 sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
-
