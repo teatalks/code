@@ -45,7 +45,7 @@ pipeline {
                     }
             }
     }
-    stage('Run Tests') {
+    stage('Post QA Stages') {
 	    parallel{
         stage('Store the Artifacts in JFrog') {
             steps {
@@ -64,6 +64,11 @@ pipeline {
                         )
                 }
         }
+        stage('Slack') {
+            steps {
+                slackSend channel: '#squad12', message: 'Build successful'
+	    }
+	}
 	
         stage('Perform UI Test Sanity Test  & Publish HTML Report') {
             steps{
