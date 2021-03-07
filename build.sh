@@ -22,3 +22,9 @@ docker ps
 
 #Ansible environment setup
 sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
+
+# Maven Installation
+sudo su -
+cd /root
+sudo wget http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+tar -xvf apache-maven-3.5.4-bin.tar.gz
