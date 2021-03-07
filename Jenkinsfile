@@ -45,7 +45,8 @@ pipeline {
                     }
             }
     }
-    parallel{
+    stage('Run Tests') {
+	    parallel{
         stage('Store the Artifacts in JFrog') {
             steps {
                 echo 'Test step slack'
@@ -71,6 +72,7 @@ pipeline {
                 }
         }
 	}
+    }
     
 
     
