@@ -13,7 +13,7 @@ sudo apt -y update
 apt-cache policy docker-ce
 sudo apt -y install docker-ce
 sudo systemctl status docker
-q
+trap "echo CTRL-C was pressed" 2
 
 #cocker ps permissions to ubuntu 
 sudo chmod 777 /var/run/docker.sock
