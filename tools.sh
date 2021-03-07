@@ -12,8 +12,6 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt -y update
 apt-cache policy docker-ce
 sudo apt -y install docker-ce
-sudo systemctl status docker
-trap "echo CTRL-C was pressed" 2
 
 #cocker ps permissions to ubuntu 
 sudo chmod 777 /var/run/docker.sock
