@@ -12,6 +12,7 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt -y update
 apt-cache policy docker-ce
 sudo apt -y install docker-ce
+trap
 sudo systemctl status docker
 
 #cocker ps permissions to ubuntu 
