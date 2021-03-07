@@ -29,28 +29,61 @@ pipeline {
         sh 'mvn compile'
       }
     }
-
-    stage('Build') {
-      steps {
-        echo 'build package'
-        sh 'mvn package'
-      }
+    
+    stage('Deploy to QA') {
+           steps {
+               sh 'mvn package -f pom.xml' 
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://54.144.155.185:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
+             }
+            steps {
+                echo 'Notification send - Deploy to QA'
+                slackSend channel: '#squad12', message: ' Deploy to QA successful'
+            }  
     }
-
-    stage('Last Step') {
+    
+    stage('Store the Artifacts in JFrog') {
       steps {
         echo 'Test step slack'
         slackSend channel: '#squad12', message: 'Build successful'
         rtUpload (
-              serverId: 'devopsfrog',
-              specPath: '/var/jenkins_home/workspace/TestJenkinsPipeline11/target/AVNCommunication-1.0.war',
-    
-              buildName: 'holyFrog',
-              buildNumber: '42'
+              serverId: 'deepikarspb',
+                spec: """{
+                            "files": [
+                                    {
+                                        "pattern": "/var/jenkins_home/workspace/TestJenkinsPipeline11/target/AVNCommunication-1.0.war",
+                                        "target": "libs-snapshot-local"
+                                    }
+                                ]
+                            }"""
           )
-      }
+        }
     }
-
+	
+    stage('Perform UI Test Sanity Test  & Publish HTML Report') {
+        steps{
+            sh 'mvn test -f functionaltest/pom.xml'
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
+	   }
+    }
+    
+    
+    /*stage('Perform Performance test') {
+        steps{
+            blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '9018766.taurus', workspaceId: '756588'
+	   }
+    }*/
+    
+    stage('Deploy to PROD') {
+           steps {
+               sh 'mvn package -f pom.xml' 
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://54.173.168.94:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
+             }
+            steps {
+                echo 'Notification send - Deploy to PROD'
+                slackSend channel: '#squad12', message: ' Deploy to PROD successful'
+            } 
+    }
+    
   }
   environment {
     PATH = "/var/jenkins_home/apache-maven-3.5.4/bin:$PATH"
