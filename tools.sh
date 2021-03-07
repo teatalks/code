@@ -13,10 +13,10 @@ sudo apt -y update
 apt-cache policy docker-ce
 sudo apt -y install docker-ce
 sudo systemctl status docker
+q
+
+#cocker ps permissions to ubuntu 
 sudo chmod 777 /var/run/docker.sock
 docker ps
-
 #Ansible environment setup
 sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
-
-exit
