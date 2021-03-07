@@ -13,3 +13,6 @@ sudo apt -y update
 apt-cache policy docker-ce
 sudo apt -y install docker-ce
 sudo systemctl status docker
+sudo chmod 777 /var/run/docker.sock
+
+exit
