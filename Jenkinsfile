@@ -45,14 +45,14 @@ pipeline {
                     }
             }
     }
-    
-    stage('Store the Artifacts in JFrog') {
-      steps {
-        echo 'Test step slack'
-        slackSend channel: '#squad12', message: 'Build successful'
-        rtUpload (
-              serverId: 'deepikarspb',
-                spec: """{
+    parallel{
+        stage('Store the Artifacts in JFrog') {
+            steps {
+                echo 'Test step slack'
+                slackSend channel: '#squad12', message: 'Build successful'
+                rtUpload (
+                    serverId: 'deepikarspb',
+                    spec: """{
                             "files": [
                                     {
                                         "pattern": "/var/jenkins_home/workspace/TestJenkinsPipeline11/target/AVNCommunication-1.0.war",
@@ -60,23 +60,19 @@ pipeline {
                                     }
                                 ]
                             }"""
-          )
+                        )
+                }
         }
-    }
 	
-    stage('Perform UI Test Sanity Test  & Publish HTML Report') {
-        steps{
-            sh 'mvn test -f functionaltest/pom.xml'
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
-	   }
-    }
+        stage('Perform UI Test Sanity Test  & Publish HTML Report') {
+            steps{
+                sh 'mvn test -f functionaltest/pom.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
+                }
+        }
+	}
     
-    
-    /*stage('Perform Performance test') {
-        steps{
-            blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '9018766.taurus', workspaceId: '756588'
-	   }
-    }*/
+
     
     stage('Deploy to PROD') {
            steps {
@@ -93,7 +89,7 @@ pipeline {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
             echo 'Notification send - Sanity test in PROD completed'
             slackSend channel: '#squad12', message: ' Sanity test in PROD completed successfully'
-	   }
+            }
     }
     
   }
