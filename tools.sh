@@ -19,3 +19,4 @@ docker ps
 
 #Ansible environment setup
 sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
+
