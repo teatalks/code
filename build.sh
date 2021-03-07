@@ -21,6 +21,6 @@ sudo chmod 777 /var/run/docker.sock
 docker ps
 
 #Ansible environment setup
-sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
+#sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
 
 #Maven Installation is part of main.tf
