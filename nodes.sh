@@ -78,13 +78,13 @@ sleep 5
 # Section 8 - initial-table.sql script is ran
 
 # The initial-table.sql script is downloaded and ran to create the user, database, and populate the database.
-echo "Downloading SQL script"
-wget -P $scripts https://raw.githubusercontent.com/devopsbc01/Scripts/master/initial-table.sql
+#echo "Downloading SQL script"
+#wget -P $scripts https://raw.githubusercontent.com/devopsbc01/Scripts/master/initial-table.sql
 
-echo "Running script"
+#echo "Running script"
 #$rfolder/bin/psql -U postgres -f $sqlscript
 
-sudo -u postgres psql -f $sqlscript
+#sudo -u postgres psql -f $sqlscript
 
 echo "Restarting postgres DB"
 sudo /etc/init.d/postgresql restart
