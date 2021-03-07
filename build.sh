@@ -24,3 +24,15 @@ docker ps
 #sudo cp /etc/ansible/hosts /etc/ansible/hosts_"$(date +"%Y_%m_%d_%I_%M_%p")"
 
 #Maven Installation is part of main.tf
+
+# ELK Dashboard Installation and Setup
+sudo apt-get -y update
+sudo apt-get -Y install default-jre
+sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+sudo echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt-get -y update && sudo apt-get -y install elasticsearch
+sudo service elasticsearch start
+sudo systemctl enable elasticsearch
+sudo apt-get -y install kibana
+sudo service kibana start
+sudo systemctl enable kibana
