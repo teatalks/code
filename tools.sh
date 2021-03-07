@@ -1,7 +1,7 @@
 # Ansible installation
-sudo apt update
-sudo apt-add repository ppa:ansible/ansible -y
-sudo apt-get install ansible -y
+sudo apt -y update
+sudo apt-add repository ppa:ansible/ansible
+sudo apt-get -y install ansible
 ansible --version
 
 # Docker installation and setup
