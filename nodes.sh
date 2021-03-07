@@ -88,3 +88,4 @@ sudo -u postgres psql -f $sqlscript
 
 echo "Restarting postgres DB"
 sudo /etc/init.d/postgresql restart
+echo "Squad12 : Infrastructure is ready to deploy Mars Communication"
