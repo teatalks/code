@@ -32,7 +32,7 @@ pipeline {
     
     stage('Deploy to QA') {
            steps {
-               sh 'mvn package -f pom.xml' 
+               sh 'mvn clean install -Dmaven.test.skip' 
                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://18.220.243.60:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to QA'
                slackSend channel: '#squad12', message: ' Deploy to QA successful'
