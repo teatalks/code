@@ -32,7 +32,8 @@ pipeline {
     
     stage('Deploy to QA') {
            steps {
-               sh 'mvn clean install -Dmaven.test.skip' 
+               //sh 'mvn package -f pom.xml' 
+	       sh 'mvn clean install -Dmaven.test.skip'  
                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://18.220.243.60:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to QA'
                slackSend channel: '#squad12', message: ' Deploy to QA successful'
@@ -70,12 +71,12 @@ pipeline {
 	    }
 	}
 	
-        stage('Perform UI Test Sanity Test  & Publish HTML Report') {
+        /*stage('Perform UI Test Sanity Test  & Publish HTML Report') {
             steps{
                 sh 'mvn test -f functionaltest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
                 }
-        }
+        }*/
 	}
     }
     
