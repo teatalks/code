@@ -77,9 +77,16 @@ pipeline {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
                 }
         }
+		    
+	stage('Perform Performance test') {
+        steps{
+            blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '9018766.taurus', workspaceId: '756588'
+	   }
+        }    
+		    
 	}
     }
-       
+       	    
     stage('Deploy to PROD') {
            steps {
                sh 'mvn package -f pom.xml' 
