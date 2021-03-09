@@ -77,9 +77,10 @@ pipeline {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
                 }
         }	    
+	*/
 	}
-    }
-  */     	 
+  }
+ 	 
 stage('Perform Performance test') {
         steps{
             blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '775576.taurus', workspaceId: '775576'
