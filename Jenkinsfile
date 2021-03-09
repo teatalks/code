@@ -51,7 +51,7 @@ pipeline {
         stage('Store the Artifacts in JFrog') {
             steps {
                 echo 'Test step slack'
-                slackSend channel: '#squad12', message: 'Build successful'
+                slackSend channel: '#squad12', message: 'Artifactory successfully stored in JFrog'
                 rtUpload (
                     serverId: 'deepikarspb',
                     spec: """{
