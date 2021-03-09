@@ -51,7 +51,7 @@ pipeline {
         stage('Store the Artifacts in JFrog') {
             steps {
                 echo 'Test step slack'
-                slackSend channel: '#squad12', message: 'Artifactory successfully stored in JFrog'
+                slackSend channel: '#squad12', message: 'Artifacts stored successfully!'
                 rtUpload (
                     serverId: 'deepikarspb',
                     spec: """{
@@ -67,28 +67,26 @@ pipeline {
         }
         stage('Slack') {
             steps {
-                slackSend channel: '#squad12', message: 'Build successful'
+                slackSend channel: '#squad12', message: 'Post QA Steps completed successfully!'
 	    }
 	}
 	
-        /*stage('Perform UI Test Sanity Test  & Publish HTML Report') {
+        stage('Perform UI Test Sanity Test  & Publish HTML Report') {
             steps{
                 sh 'mvn test -f functionaltest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
                 }
-        }*/
+        }
 	}
     }
-    
-
-    
+       
     stage('Deploy to PROD') {
            steps {
                sh 'mvn package -f pom.xml' 
 	       //sh 'mvn clean install -Dmaven.test.skip'		   
                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://172.31.4.99:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to PROD'
-               slackSend channel: '#squad12', message: ' Deploy to PROD successful'
+               slackSend channel: '#squad12', message: 'Deploy to PROD successful!'
              }
     }
     
@@ -97,7 +95,7 @@ pipeline {
             //sh 'mvn test -f Acceptancetest/pom.xml'
             //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: ''])
             echo 'Notification send - Sanity test in PROD completed'
-            slackSend channel: '#squad12', message: ' Sanity test in PROD completed successfully'
+            slackSend channel: '#squad12', message: ' Sanity test in PROD completed successfully!'
             }
     }
     
