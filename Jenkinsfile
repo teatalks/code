@@ -70,7 +70,7 @@ pipeline {
                 slackSend channel: '#squad12', message: 'Post QA Steps completed successfully!'
 	    }
 	}
-	
+/*	
         stage('Perform UI Test Sanity Test  & Publish HTML Report') {
             steps{
                 sh 'mvn test -f functionaltest/pom.xml'
@@ -79,7 +79,7 @@ pipeline {
         }	    
 	}
     }
-       	 
+  */     	 
 stage('Perform Performance test') {
         steps{
             blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '775576.taurus', workspaceId: '775576'
