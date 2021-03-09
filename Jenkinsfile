@@ -78,7 +78,7 @@ pipeline {
                 }
         }
 	*/
-	
+/*	
 	stage('Perform Performance test') {
         steps{
             blazeMeterTest credentialsId: 'Blazemeter', getJtl: true, getJunit: true, testId: '9018766.taurus', workspaceId: '756588'
@@ -87,7 +87,7 @@ pipeline {
 		    
 	}
     }
-       	  
+  */     	  
 	  
     stage('Deploy to PROD') {
            steps {
