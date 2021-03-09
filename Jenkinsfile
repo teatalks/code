@@ -86,7 +86,7 @@ pipeline {
            steps {
                sh 'mvn package -f pom.xml' 
 	       //sh 'mvn clean install -Dmaven.test.skip'		   
-               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://3.137.169.160:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://172.31.4.99:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to PROD'
                slackSend channel: '#squad12', message: ' Deploy to PROD successful'
              }
