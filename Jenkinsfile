@@ -97,6 +97,30 @@ pipeline {
                slackSend channel: '#squad12', message: 'Deploy to PROD successful!'
              }
     }
+	  // Deepika Code start
+	  
+	   stage('Docker containarize PROD app - Build and Tag') {
+           steps {
+               sh 'docker build -t prodwebapp:latest .'
+	       sh  'docker tag prodwebapp brewdevops/prodwebapp:$BUILD_NUMBER'
+               echo 'Docker container successful'
+               slackSend channel: '#squad12', message: 'New PROD container build and tag!'
+             }
+    }
+	  
+	    stage('PROD - Publish image to Docker Hub') {
+          
+            steps {
+        		withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
+         		 sh  'docker push brewdevops/prodwebapp:$BUILD_NUMBER'
+				echo 'Docker container pushed to DockerHub successful'
+               			slackSend channel: '#squad12', message: 'New PROD container available in DockerHub!'
+        	}
+                  
+          	}
+        }
+	  
+	  // Deepika Code End
     
     stage('Perform Sanity test in PROD') {
         steps{
