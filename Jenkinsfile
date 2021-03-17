@@ -34,7 +34,7 @@ pipeline {
            steps {
                sh 'mvn package -f pom.xml' 
 	       //sh 'mvn clean install -Dmaven.test.skip'  
-               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://172.31.12.75:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://100.26.247.83:8080')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to QA'
                slackSend channel: '#squad12', message: ' Deploy to QA successful'
                
@@ -92,7 +92,7 @@ pipeline {
            steps {
                sh 'mvn package -f pom.xml' 
 	       //sh 'mvn clean install -Dmaven.test.skip'		   
-               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://172.31.4.99:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
+               deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://54.236.53.31:8080')], contextPath: '/ProdWebapp', onFailure: false, war: '**/*.war'
                echo 'Notification send - Deploy to PROD'
                slackSend channel: '#squad12', message: 'Deploy to PROD successful!'
              }
