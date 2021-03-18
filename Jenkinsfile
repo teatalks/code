@@ -101,7 +101,7 @@ pipeline {
 	  
 	   stage('Docker containarize PROD app - Build and Tag') {
            steps {
-               sh 'docker build -t prodwebapp:latest -f /root/workspace/DockerizeApp_5_main'
+               sh 'docker build -t prodwebapp:latest -f /var/jenkins_home/workspace/DockerizeApp_5_main'
 	       sh  'docker tag prodwebapp brewdevops/prodwebapp:$BUILD_NUMBER'
                echo 'Docker container successful'
                slackSend channel: '#squad12', message: 'New PROD container build and tag!'
