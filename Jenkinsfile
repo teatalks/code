@@ -7,21 +7,21 @@ pipeline {
         git(credentialsId: 'Github', url: 'https://github.com/squad12-devops/DevOps-Demo-WebApp.git')
       }
     }
-    //stage(' Static Code Analysis - SonarQube') {
-    //       steps{
-    //           withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
-    //             sh "${tool("sonarqube")}/bin/sonar-scanner \
-     //           -Dsonar.projectKey=. \
-     //           -Dsonar.sources=. \
-     //           -Dsonar.tests=. \
-     //           -Dsonar.inclusions=**/test/java/servlet/createpage_junit.java \
-     //           -Dsonar.test.exclusions=**/test/java/servlet/createpage_junit.java \
-    //            -Dsonar.login=admin \
-    //            -Dsonar.password=sonar "
-    //             sh 'mvn validate -f pom.xml'
-    //            }
-    //       }
-   // }
+    stage(' Static Code Analysis - SonarQube') {
+           steps{
+              withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
+                sh "${tool("sonarqube")}/bin/sonar-scanner \
+               -Dsonar.projectKey=. \
+              -Dsonar.sources=. \
+              -Dsonar.tests=. \
+              -Dsonar.inclusions=**/test/java/servlet/createpage_junit.java \
+                -Dsonar.test.exclusions=**/test/java/servlet/createpage_junit.java \
+              -Dsonar.login=admin \
+               -Dsonar.password=sonar "
+               sh 'mvn validate -f pom.xml'
+             }
+          }
+    }
 
     stage('Compile') {
       steps {
@@ -70,14 +70,14 @@ pipeline {
                 slackSend channel: '#squad12', message: 'Post QA Steps completed successfully!'
 	    }
 	}
-/*	
+	
         stage('Perform UI Test Sanity Test  & Publish HTML Report') {
             steps{
                 sh 'mvn test -f functionaltest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Sanity Test HTML Report', reportTitles: 'HTML Report'])
                 }
         }
-	*/
+	
 /*	
 	stage('Perform Performance test') {
         steps{
