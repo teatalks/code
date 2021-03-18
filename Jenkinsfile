@@ -99,14 +99,14 @@ pipeline {
     }
 	  // Deepika Code start
 	  
-	   stage('Docker containarize PROD app - Build and Tag') {
+	   /*stage('Docker containarize PROD app - Build and Tag') {
            steps {
                sh 'docker build -t prodwebapp:latest -f /var/jenkins_home/workspace/DockerizeApp_8_main'
 	       sh  'docker tag prodwebapp brewdevops/prodwebapp:$BUILD_NUMBER'
                echo 'Docker container successful'
                slackSend channel: '#squad12', message: 'New PROD container build and tag!'
              }
-    }
+         }
 	  
 	    stage('PROD - Publish image to Docker Hub') {
           
@@ -118,7 +118,7 @@ pipeline {
         	}
                   
           	}
-        }
+        }*/
 	  
 	  // Deepika Code End
     
