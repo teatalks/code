@@ -2,7 +2,7 @@ FROM tomcat:latest
 
 LABEL maintainer="Squad12"
 
-ADD /var/jenkins_home/workspace/DockerizeApp_2_main/target/AVNCommunication-1.0.war /usr/local/tomcat/webapps/ProdWebapp
+ADD /var/lib/jenkins/workspace/DockerizeApp/target/AVNCommunication-1.0.war /usr/local/tomcat/webapps/ProdWebapp
 
 EXPOSE 8080
 
